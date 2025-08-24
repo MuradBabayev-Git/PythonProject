@@ -578,7 +578,12 @@ def blog_detail(request, slug):
     return render(request, 'product/sketches/blog-detail.html', context)
 
 def contact(request):
-    return render(request, 'product/sketches/contact.html')  # со sketches/
+    contact_info = ContactInfo.objects.filter(is_active=True).first()
+    context = {
+        'contact_info': contact_info
+    }
+    return render(request, 'product/sketches/contact.html', context)
+
 
 def become_seller(request):
     return render(request, 'product/sketches/become-seller.html')  # со sketches/
@@ -605,3 +610,14 @@ def author_detail(request, author_id):
         'author_products': author_products,
     }
     return render(request, 'product/author_detail.html', context)
+
+
+
+def contact_view(request):
+    # Получаем активную контактную информацию
+    contact_info = ContactInfo.objects.filter(is_active=True).first()
+    
+    context = {
+        'contact_info': contact_info  # Передаем данные в шаблон
+    }
+    return render(request, 'product/sketches/contact.html', context)

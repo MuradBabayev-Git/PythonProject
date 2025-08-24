@@ -481,3 +481,20 @@ class Brand(models.Model):
 
     def __str__(self):
         return f"Бренд {self.id}"  # или можно вернуть имя файла
+
+
+class ContactInfo(models.Model):
+    address = models.CharField(max_length=200)
+    phone1 = models.CharField(max_length=20)
+    phone2 = models.CharField(max_length=20, blank=True)
+    email1 = models.EmailField()
+    email2 = models.EmailField(blank=True)
+    working_days = models.CharField(max_length=100)
+    weekend = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return "Contact Information"
+    
+    class Meta:
+        verbose_name_plural = "Contact Information"

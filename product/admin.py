@@ -387,3 +387,17 @@ class BrandAdmin(admin.ModelAdmin):
             return f'Лого {obj.id}'
         return 'Нет лого'
     logo_preview.short_description = 'Логотип'
+
+
+
+
+@admin.register(ContactInfo)
+class ContactInfoAdmin(admin.ModelAdmin):
+    list_display = ['address', 'phone1', 'email1', 'is_active']
+    list_editable = ['is_active']
+    
+    # Ограничиваем создание только одной активной записи
+    def has_add_permission(self, request):
+        if ContactInfo.objects.filter(is_active=True).exists():
+            return False
+        return True
