@@ -45,17 +45,10 @@
                                     {{ slide.description }}
                                 </p>
                                 <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                    {% if slide.product %}
-                                        <a href="{% url 'product:product_detail' slide.product.slug %}" class="theme-btn">
-                                            {{ slide.button_text }}<i class="fas fa-arrow-right"></i>
-                                        </a>
-                                    {% else %}
-                                        <a href="{{ slide.button_link }}" class="theme-btn">
-                                            {{ slide.button_text }}<i class="fas fa-arrow-right"></i>
-                                        </a>
-                                    {% endif %}
+                                    <a href="{{ slide.button_link }}" class="theme-btn">
+                                        {{ slide.button_text }}<i class="fas fa-arrow-right"></i>
+                                    </a>
                                 </div>
-                                
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-6 col-xl-4">
@@ -329,7 +322,7 @@
             <div class="col-12">
                 <div class="site-heading-inline">
                     <h2 class="site-title"><img src="{% static 'product/assets/img/icon/brand.svg' %}" alt="">Popular Brands</h2>
-                    <a href="{% url 'product:all_brands' %}">All Brands <i class="fas fa-arrow-right"></i></a>
+                    <a href="index.html#">All Brands <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>

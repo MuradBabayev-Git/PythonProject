@@ -605,38 +605,3 @@ def author_detail(request, author_id):
         'author_products': author_products,
     }
     return render(request, 'product/author_detail.html', context)
-
-
-
-
-def slider_detail(request, pk):
-    slide = get_object_or_404(HeroSlider, pk=pk, is_active=True)
-    
-    context = {
-        'page_title': f'Slide - {slide.title_line2}',
-        'slide': slide,
-    }
-    return render(request, 'product/slider_detail.html', context)
-
-def brand_detail(request, brand_id):
-    brand = get_object_or_404(Brand, id=brand_id, is_active=True)
-    
-    # Убираем фильтрацию по бренду (пока нет связи)
-    brand_products = []  # пустой список
-    
-    context = {
-        'page_title': f'Brand',
-        'brand': brand,
-        'brand_products': brand_products,
-    }
-    return render(request, 'product/brand_detail.html', context)
-
-
-def all_brands(request):
-    brands = Brand.objects.filter(is_active=True).order_by('order')
-    
-    context = {
-        'page_title': 'All Brands',
-        'brands': brands,
-    }
-    return render(request, 'product/all_brands.html', context)

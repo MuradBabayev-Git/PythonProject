@@ -346,22 +346,28 @@ class BlogPostAdmin(admin.ModelAdmin):
     readonly_fields = ('views', 'created_at', 'updated_at')
 
 
+
 @admin.register(HeroSlider)
 class HeroSliderAdmin(admin.ModelAdmin):
-    list_display = ['title_line1', 'title_line2', 'product', 'is_active', 'order']
-    # ... остальные настройки ...
+    list_display = ['subtitle', 'title_line2', 'is_active', 'order', 'created_at']
+    list_editable = ['is_active', 'order']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['title_line1', 'title_line2', 'title_line3', 'subtitle', 'description']
     
     fieldsets = (
-        ('Основная информация', {
-            'fields': ('subtitle', 'title_line1', 'title_line2', 'title_line3', 'description', 'image')
+        ('Заголовок', {
+            'fields': ('subtitle', 'title_line1', 'title_line2', 'title_line3')
         }),
-        ('Кнопка и ссылка', {
-            'fields': ('product', 'button_text', 'button_link')
+        ('Контент', {
+            'fields': ('description', 'image')
+        }),
+        ('Кнопка', {
+            'fields': ('button_text', 'button_link')
         }),
         ('Настройки', {
             'fields': ('is_active', 'order')
         }),
-    )
+    )   
 
 
 @admin.register(Brand)

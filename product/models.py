@@ -453,16 +453,6 @@ class HeroSlider(models.Model):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
-    product = models.ForeignKey(
-        Product,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name="Связанный продукт",
-        help_text="Продукт, на который будет вести кнопка Shop Now"
-    )
-
 
     class Meta:
         verbose_name = "Слайд героя"
