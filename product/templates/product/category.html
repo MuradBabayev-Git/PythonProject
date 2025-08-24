@@ -1,0 +1,62 @@
+{% extends "product/layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="site-breadcrumb-bg" style="background: url({% static 'product/assets/img/breadcrumb/01.jpg' %})"></div>
+    <div class="container">
+        <div class="site-breadcrumb-wrap">
+            <h4 class="breadcrumb-title">Category One</h4>
+            <ul class="breadcrumb-menu">
+                <li><a href="index.html"><i class="far fa-home"></i> Home</a></li>
+                <li class="active">Category One</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb end -->
+
+<!-- category area -->
+<div class="category-area py-90">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="site-heading-inline">
+                    <h2 class="site-title"><img src="{% static 'product/assets/img/icon/category.svg' %}" alt="">All Category</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row g-2">
+            {% for category in categories %}
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="category-item">
+                    <a href="{{ category.get_absolute_url }}">
+                        <div class="category-info">
+                            <div class="icon">
+                                {% if category.icon %}
+                                <img src="{{ category.icon.url }}" alt="">
+                                {% else %}
+                                <img src="{% static 'product/assets/img/icon/no_image.svg' %}" alt="">
+                                {% endif %}
+                            </div>
+                            <div class="content">
+                                <h4>{{ category.name|truncatechars:20 }}</h4>
+                                <p>{{ category.product_count }} Items</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- category area end-->
+
+<!-- newsletter area -->
+
+<!-- newsletter area end -->
+
+{% endblock %}
