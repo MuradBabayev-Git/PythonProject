@@ -334,3 +334,37 @@ class NewCollectionAdmin(admin.ModelAdmin):
 class AboutPageContentAdmin(admin.ModelAdmin):
     list_display = ('title', 'is_active')
     list_editable = ('is_active',)
+
+
+# admin.py
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+    list_display = ('title', 'author', 'created_at', 'is_published', 'views')
+    list_filter = ('is_published', 'created_at', 'author')
+    search_fields = ('title', 'content')
+    prepopulated_fields = {'slug': ('title',)}
+    readonly_fields = ('views', 'created_at', 'updated_at')
+
+
+
+@admin.register(HeroSlider)
+class HeroSliderAdmin(admin.ModelAdmin):
+    list_display = ['subtitle', 'title_line2', 'is_active', 'order', 'created_at']
+    list_editable = ['is_active', 'order']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['title_line1', 'title_line2', 'title_line3', 'subtitle', 'description']
+    
+    fieldsets = (
+        ('Заголовок', {
+            'fields': ('subtitle', 'title_line1', 'title_line2', 'title_line3')
+        }),
+        ('Контент', {
+            'fields': ('description', 'image')
+        }),
+        ('Кнопка', {
+            'fields': ('button_text', 'button_link')
+        }),
+        ('Настройки', {
+            'fields': ('is_active', 'order')
+        }),
+    )   

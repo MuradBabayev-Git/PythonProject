@@ -1,0 +1,132 @@
+{% extends "product/layouts/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- breadcrumb -->
+<div class="site-breadcrumb">
+    <div class="site-breadcrumb-bg" style="background: url({% static 'product/assets/img/breadcrumb/01.jpg' %})"></div>
+    <div class="container">
+        <div class="site-breadcrumb-wrap">
+            <h4 class="breadcrumb-title">Blog Detail</h4>
+            <ul class="breadcrumb-menu">
+                <li><a href="{% url 'product:index' %}"><i class="far fa-home"></i> Home</a></li>
+                <li><a href="{% url 'product:blog' %}">Blog</a></li>
+                <li class="active">{{ post.title|truncatewords:5 }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- breadcrumb end -->
+
+<!-- blog detail area -->
+<div class="blog-detail-area py-100">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <article class="kf93jd-content">
+                    <!-- Featured Image -->
+                    <div class="kf93jd-img">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid">
+                    </div>
+
+                    <!-- Post Meta -->
+                    <div class="kf93jd-meta">
+                        <div class="kf93jd-meta-item">
+                            <i class="far fa-user"></i>
+                            <a href="{% url 'product:author_detail' post.author.id %}">{{ post.author.name }}</a>
+                        </div>
+                        <div class="kf93jd-meta-item">
+                            <i class="far fa-calendar"></i>
+                            {{ post.created_at|date:"M j, Y" }}
+                        </div>
+                        <div class="kf93jd-meta-item">
+                            <i class="far fa-eye"></i>
+                            {{ post.views }} Views
+                        </div>
+                        <div class="kf93jd-meta-item">
+                            <i class="far fa-clock"></i>
+                            5 min read
+                        </div>
+                    </div>
+
+                    <!-- Post Title -->
+                    <h1 class="kf93jd-title">{{ post.title }}</h1>
+
+                    <!-- Post Content -->
+                    <div class="kf93jd-text">
+                        {{ post.content|safe }}
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="kf93jd-tags">
+                        <strong><i class="far fa-tags"></i> Tags:</strong>
+                        <a href="#">Ecommerce</a>
+                        <a href="#">Technology</a>
+                        <a href="#">Business</a>
+                    </div>
+
+                    <!-- Social Share -->
+                    <div class="kf93jd-share">
+                        <strong>Share this post:</strong>
+                        <div class="kf93jd-share-buttons">
+                            <a href="#" class="kf93jd-facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="kf93jd-twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="kf93jd-linkedin"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="kf93jd-pinterest"><i class="fab fa-pinterest"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Author Bio -->
+                    <div class="kf93jd-author">
+                        <div class="kf93jd-author-avatar">
+                            {% if post.author.image %}
+                                <img src="{{ post.author.image.url }}" alt="{{ post.author.name }}">
+                            {% else %}
+                                <img src="{% static 'product/assets/img/author/default.jpg' %}" alt="{{ post.author.name }}">
+                            {% endif %}
+                        </div>
+                        <div class="kf93jd-author-info">
+                            <h4>Written by {{ post.author.name }}</h4>
+                            <p>Digital marketing expert with 5+ years of experience in e-commerce and content strategy.</p>
+                            <div class="kf93jd-author-social">
+                                {% if post.author.facebook %}<a href="{{ post.author.facebook }}"><i class="fab fa-facebook-f"></i></a>{% endif %}
+                                {% if post.author.twitter %}<a href="{{ post.author.twitter }}"><i class="fab fa-twitter"></i></a>{% endif %}
+                                {% if post.author.linkedin %}<a href="{{ post.author.linkedin }}"><i class="fab fa-linkedin-in"></i></a>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Related Posts -->
+                {% if similar_posts %}
+                <div class="kf93jd-related">
+                    <h3>You might also like</h3>
+                    <div class="row">
+                        {% for similar_post in similar_posts %}
+                        <div class="col-md-6">
+                            <div class="kf93jd-related-card">
+                                <div class="kf93jd-related-img">
+                                    <img src="{{ similar_post.image.url }}" alt="{{ similar_post.title }}">
+                                </div>
+                                <div class="kf93jd-related-content">
+                                    <h5>
+                                        <a href="{% url 'product:blog_detail' similar_post.slug %}">
+                                            {{ similar_post.title|truncatewords:8 }}
+                                        </a>
+                                    </h5>
+                                    <span>{{ similar_post.created_at|date:"M j, Y" }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- blog detail area end -->
+
+{% endblock %}

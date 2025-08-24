@@ -392,3 +392,74 @@ class AboutPageContent(models.Model):
     class Meta:
         verbose_name = "About Page Content"
         verbose_name_plural = "About Page Contents"
+
+
+# models.py
+class BlogPost(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Заголовок")
+    slug = models.SlugField(unique=True, blank=True, verbose_name="URL")
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name="Автор")
+    image = models.ImageField(
+        upload_to="blog/",
+        verbose_name="Изображение",
+        help_text="Рекомендуемый размер: 800x500px"
+    )
+    excerpt = models.TextField(max_length=300, verbose_name="Краткое описание")
+    content = RichTextUploadingField(verbose_name="Содержание")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
+    is_published = models.BooleanField(default=True, verbose_name="Опубликовано")
+    views = models.PositiveIntegerField(default=0, verbose_name="Просмотры")
+
+    class Meta:
+        verbose_name = "Пост блога"
+        verbose_name_plural = "Посты блога"
+        ordering = ("-created_at",)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = unique_slugify(self, self.title)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("product:blog_detail", kwargs={"slug": self.slug})
+    
+
+
+from django.db import models
+
+class HeroSlider(models.Model):
+    title_line1 = models.CharField(max_length=100, verbose_name="Первая строка заголовка", blank=True)
+    title_line2 = models.CharField(
+        max_length=100, 
+        verbose_name="Вторая строка заголовка (цветная часть)",
+        default="Goemart"  # Добавляем значение по умолчанию
+    )
+    title_line3 = models.CharField(max_length=100, verbose_name="Третья строка заголовка", blank=True)
+    subtitle = models.CharField(max_length=200, verbose_name="Подзаголовок (верхняя зеленая строка)")
+    description = models.TextField(verbose_name="Описание")
+    button_text = models.CharField(max_length=50, default="Shop Now", verbose_name="Текст кнопки")
+    button_link = models.CharField(max_length=200, default="#", verbose_name="Ссылка кнопки")
+    image = models.ImageField(
+        upload_to="slider/", 
+        verbose_name="Изображение",
+        help_text="Рекомендуемый размер: 600x600px"
+    )
+    is_active = models.BooleanField(default=True, verbose_name="Активный")
+    order = models.PositiveIntegerField(default=0, verbose_name="Порядок")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Слайд героя"
+        verbose_name_plural = "Слайды героя"
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return f"{self.subtitle} - {self.title_line2}"
+
+

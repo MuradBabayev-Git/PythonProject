@@ -8,6 +8,9 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('shop/', views.shop, name='shop'),
     path('blog/', views.blog, name='blog'),
+    # Добавьте только детальную страницу:
+    path('blog/<slug:slug>/', views.blog_detail, name='blog_detail'),
+
     path('contact/', views.contact, name='contact'),
     path('become-seller/', views.become_seller, name='become_seller'),
     path('author/<int:author_id>/', views.author_detail, name='author_detail'),

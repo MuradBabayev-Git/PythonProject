@@ -30,180 +30,120 @@
             </div>
         </div>
         <div class="row">
+            {% for post in posts %}
             <div class="col-md-6 col-lg-4">
-                <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
+                <div class="blog-item wow fadeInUp" data-wow-delay=".{{ forloop.counter|add:1 }}5s">
                     <div class="blog-item-img">
-                        <img src="{% static 'product/assets/img/blog/01.jpg' %}" alt="Thumb">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}">
+                        <div class="blog-date">
+                            <span>{{ post.created_at|date:"d" }}</span>
+                            <span>{{ post.created_at|date:"M" }}</span>
+                        </div>
                     </div>
                     <div class="blog-item-info">
                         <div class="blog-item-meta">
                             <ul>
-                                <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                <li><a href="#"><i class="far fa-calendar-alt"></i> January 29, 2024</a></li>
+                                <li>
+                                    <a href="{% url 'product:author_detail' post.author.id %}">
+                                        <i class="far fa-user-circle"></i> By {{ post.author.name }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-calendar-alt"></i> {{ post.created_at|date:"F j, Y" }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="far fa-eye"></i> {{ post.views }} views
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                         <h4 class="blog-title">
-                            <a href="#">There are many variations of passage available majority suffered.</a>
+                            <a href="{% url 'product:blog_detail' post.slug %}">{{ post.title }}</a>
                         </h4>
-                        <p>There are many variations available the majority have suffered alteration randomised words.</p>
-                        <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right-long"></i></a>
+                        <p>{{ post.excerpt }}</p>
+                        <a class="theme-btn" href="{% url 'product:blog_detail' post.slug %}">
+                            Read More <i class="fas fa-arrow-right-long"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-item wow fadeInUp" data-wow-delay=".50s">
-                    <div class="blog-item-img">
-                        <img src="{% static 'product/assets/img/blog/02.jpg' %}" alt="Thumb">
-                    </div>
-                    <div class="blog-item-info">
-                        <div class="blog-item-meta">
-                            <ul>
-                                <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                <li><a href="#"><i class="far fa-calendar-alt"></i> January 29, 2024</a></li>
-                            </ul>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="#">There are many variations of passage available majority suffered.</a>
-                        </h4>
-                        <p>There are many variations available the majority have suffered alteration randomised words.</p>
-                        <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right-long"></i></a>
-                    </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <h4>No blog posts yet</h4>
+                    <p>Check back later for updates!</p>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-item wow fadeInUp" data-wow-delay=".75s">
-                    <div class="blog-item-img">
-                        <img src="{% static 'product/assets/img/blog/03.jpg' %}" alt="Thumb">
-                    </div>
-                    <div class="blog-item-info">
-                        <div class="blog-item-meta">
-                            <ul>
-                                <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                <li><a href="#"><i class="far fa-calendar-alt"></i> January 29, 2024</a></li>
-                            </ul>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="#">There are many variations of passage available majority suffered.</a>
-                        </h4>
-                        <p>There are many variations available the majority have suffered alteration randomised words.</p>
-                        <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right-long"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
-                    <div class="blog-item-img">
-                        <img src="{% static 'product/assets/img/blog/01.jpg' %}" alt="Thumb">
-                    </div>
-                    <div class="blog-item-info">
-                        <div class="blog-item-meta">
-                            <ul>
-                                <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                <li><a href="#"><i class="far fa-calendar-alt"></i> January 29, 2024</a></li>
-                            </ul>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="#">There are many variations of passage available majority suffered.</a>
-                        </h4>
-                        <p>There are many variations available the majority have suffered alteration randomised words.</p>
-                        <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right-long"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-item wow fadeInUp" data-wow-delay=".50s">
-                    <div class="blog-item-img">
-                        <img src="{% static 'product/assets/img/blog/02.jpg' %}" alt="Thumb">
-                    </div>
-                    <div class="blog-item-info">
-                        <div class="blog-item-meta">
-                            <ul>
-                                <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                <li><a href="#"><i class="far fa-calendar-alt"></i> January 29, 2024</a></li>
-                            </ul>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="#">There are many variations of passage available majority suffered.</a>
-                        </h4>
-                        <p>There are many variations available the majority have suffered alteration randomised words.</p>
-                        <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right-long"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="blog-item wow fadeInUp" data-wow-delay=".75s">
-                    <div class="blog-item-img">
-                        <img src="{% static 'product/assets/img/blog/03.jpg' %}" alt="Thumb">
-                    </div>
-                    <div class="blog-item-info">
-                        <div class="blog-item-meta">
-                            <ul>
-                                <li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-                                <li><a href="#"><i class="far fa-calendar-alt"></i> January 29, 2024</a></li>
-                            </ul>
-                        </div>
-                        <h4 class="blog-title">
-                            <a href="#">There are many variations of passage available majority suffered.</a>
-                        </h4>
-                        <p>There are many variations available the majority have suffered alteration randomised words.</p>
-                        <a class="theme-btn" href="#">Read More<i class="fas fa-arrow-right-long"></i></a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
+        
         <!-- pagination -->
+        {% if posts.has_other_pages %}
         <div class="pagination-area mb-0">
             <div aria-label="Page navigation example">
                 <ul class="pagination">
+                    {% if posts.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Previous">
+                        <a class="page-link" href="?page={{ posts.previous_page_number }}" aria-label="Previous">
                             <span aria-hidden="true"><i class="far fa-arrow-left"></i></span>
                         </a>
                     </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><span class="page-link">...</span></li>
-                    <li class="page-item"><a class="page-link" href="#">10</a></li>
+                    {% endif %}
+
+                    {% for i in posts.paginator.page_range %}
+                        {% if posts.number == i %}
+                        <li class="page-item active"><a class="page-link" href="#">{{ i }}</a></li>
+                        {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if posts.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+                        <a class="page-link" href="?page={{ posts.next_page_number }}" aria-label="Next">
                             <span aria-hidden="true"><i class="far fa-arrow-right"></i></span>
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
-                </div>
             </div>
-            <!-- pagination end -->
         </div>
+        {% endif %}
+        <!-- pagination end -->
     </div>
-    <!-- blog area end -->
+</div>
+<!-- blog area end -->
 
-    <!-- newsletter area -->
-    <div class="newsletter-area pt-60 pb-60">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 mx-auto">
-                    <div class="newsletter-content">
-                        <h3>Get <span>20%</span> Off Discount Coupon</h3>
-                        <p>By Subscribe Our Newsletter</p>
-                        <div class="subscribe-form">
-                            <form action="#">
-                                <input type="email" class="form-control" placeholder="Your Valid Email Address">
-                                <button class="theme-btn" type="submit">
-                                    Subscribe <i class="far fa-paper-plane"></i>
-                                </button>
-                            </form>
-                        </div>
+<!-- newsletter area -->
+<div class="newsletter-area pt-60 pb-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="newsletter-content">
+                    <h3>Get <span>20%</span> Off Discount Coupon</h3>
+                    <p>By Subscribe Our Newsletter</p>
+                    <div class="subscribe-form">
+                        <form action="#">
+                            <input type="email" class="form-control" placeholder="Your Valid Email Address">
+                            <button class="theme-btn" type="submit">
+                                Subscribe <i class="far fa-paper-plane"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="newsletter-img-1">
-            <img src="{% static 'product/assets/img/newsletter/01.png' %}" alt="">
-        </div>
-        <div class="newsletter-img-2">
-            <img src="{% static 'product/assets/img/newsletter/02.png' %}" alt="">
-        </div>
     </div>
-    <!-- newsletter area end -->
+    <div class="newsletter-img-1">
+        <img src="{% static 'product/assets/img/newsletter/01.png' %}" alt="">
+    </div>
+    <div class="newsletter-img-2">
+        <img src="{% static 'product/assets/img/newsletter/02.png' %}" alt="">
+    </div>
+</div>
+<!-- newsletter area end -->
 
 {% endblock %}

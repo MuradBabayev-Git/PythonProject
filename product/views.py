@@ -489,7 +489,49 @@ def about_view(request):
 
 
 def home(request):
-    return render(request, 'product/index.html')  # без sketches/
+    hero_slides = HeroSlider.objects.filter(is_active=True).order_by('order')
+    
+    products_qs = Product.objects.annotate(
+        tax_value=Coalesce(F("tax_price"), 0.00, output_field=DecimalField()),
+        discount_value=Coalesce(
+            F("discount"), 0.00, output_field=DecimalField()
+        ),
+    ).annotate(
+        final_price=Round(
+            ExpressionWrapper(
+                F("price") * (1.00 - F("discount_value") / 100.00)
+                + F("tax_value"),
+                output_field=DecimalField(),
+            ),
+            2,
+            output_field=FloatField(),
+        ),
+        total_price=Round(
+            ExpressionWrapper(
+                F("price") + F("tax_value"),
+                output_field=DecimalField(),
+            ),
+            2,
+            output_field=FloatField(),
+        ),
+    )
+
+    categories = Category.objects.annotate(
+        product_count=Count("products")
+    ).order_by("-created_at")
+
+    context = {
+        "page_title": "Home",
+        "hero_slides": hero_slides,  # Добавляем слайды в контекст
+        "products": products_qs[:12],
+        "categories": categories,
+        "discount_products": products_qs.filter(discount_value__gt=0),
+        "last_products": products_qs.order_by("-id")[:5],
+    }
+
+
+    
+    return render(request, 'product/index.html', context)  # без sketches/
 
 def about(request):
     return render(request, 'product/sketches/about.html')  # со sketches/
@@ -498,7 +540,38 @@ def shop(request):
     return render(request, 'product/sketches/category.html')  # со sketches/
 
 def blog(request):
-    return render(request, 'product/sketches/blog-grid.html')  # со sketches/
+    # Динамические посты блога
+    blog_posts = BlogPost.objects.filter(is_published=True).select_related('author')
+    
+    paginator = Paginator(blog_posts, 6)
+    page = request.GET.get('page')
+    
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    
+    context = {
+        'posts': posts,
+    }
+    return render(request, 'product/sketches/blog-grid.html', context)
+
+def blog_detail(request, slug):
+    post = get_object_or_404(BlogPost, slug=slug, is_published=True)
+    post.views += 1
+    post.save(update_fields=['views'])
+    
+    similar_posts = BlogPost.objects.filter(
+        is_published=True
+    ).exclude(id=post.id).order_by('?')[:3]
+    
+    context = {
+        'post': post,
+        'similar_posts': similar_posts,
+    }
+    return render(request, 'product/sketches/blog-detail.html', context)
 
 def contact(request):
     return render(request, 'product/sketches/contact.html')  # со sketches/

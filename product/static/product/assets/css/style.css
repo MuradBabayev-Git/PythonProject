@@ -2135,7 +2135,7 @@ label {
 }
 
 .hero-single .hero-content .hero-title span{
-  color: var(--theme-color);
+    color: #3BB77E; /* Зеленый цвет как на фото */
 }
 
 .hero-single .hero-content p {
@@ -10543,3 +10543,4 @@ label {
       justify-content: center;
   }
 }
+
