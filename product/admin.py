@@ -368,3 +368,22 @@ class HeroSliderAdmin(admin.ModelAdmin):
             'fields': ('is_active', 'order')
         }),
     )   
+
+
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
+    list_display = ['logo_preview', 'is_active', 'order', 'created_at']
+    list_editable = ['is_active', 'order']
+    list_filter = ['is_active', 'created_at']
+    
+    fieldsets = (
+        ('Основная информация', {
+            'fields': ('logo', 'is_active', 'order')
+        }),
+    )
+    
+    def logo_preview(self, obj):
+        if obj.logo:
+            return f'Лого {obj.id}'
+        return 'Нет лого'
+    logo_preview.short_description = 'Логотип'

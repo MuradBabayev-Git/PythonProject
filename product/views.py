@@ -489,7 +489,11 @@ def about_view(request):
 
 
 def home(request):
+    # Получаем активные слайды
     hero_slides = HeroSlider.objects.filter(is_active=True).order_by('order')
+    
+    # Получаем активные бренды
+    brands = Brand.objects.filter(is_active=True).order_by('order')
     
     products_qs = Product.objects.annotate(
         tax_value=Coalesce(F("tax_price"), 0.00, output_field=DecimalField()),
@@ -523,15 +527,15 @@ def home(request):
     context = {
         "page_title": "Home",
         "hero_slides": hero_slides,  # Добавляем слайды в контекст
+        "brands": brands,  # Добавляем бренды в контекст
         "products": products_qs[:12],
         "categories": categories,
         "discount_products": products_qs.filter(discount_value__gt=0),
         "last_products": products_qs.order_by("-id")[:5],
     }
 
+    return render(request, 'product/index.html', context)
 
-    
-    return render(request, 'product/index.html', context)  # без sketches/
 
 def about(request):
     return render(request, 'product/sketches/about.html')  # со sketches/

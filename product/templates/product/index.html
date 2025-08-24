@@ -327,24 +327,11 @@
             </div>
         </div>
         <div class="brand-slider owl-carousel owl-theme">
+            {% for brand in brands %}
             <div class="brand-item">
-                <img src="{% static 'product/assets/img/brand/01.png' %}" alt="">
+                <img src="{{ brand.logo.url }}" alt="{{ brand.name }}">
             </div>
-            <div class="brand-item">
-                <img src="{% static 'product/assets/img/brand/02.png' %}" alt="">
-            </div>
-            <div class="brand-item">
-                <img src="{% static 'product/assets/img/brand/03.png' %}" alt="">
-            </div>
-            <div class="brand-item">
-                <img src="{% static 'product/assets/img/brand/04.png' %}" alt="">
-            </div>
-            <div class="brand-item">
-                <img src="{% static 'product/assets/img/brand/05.png' %}" alt="">
-            </div>
-            <div class="brand-item">
-                <img src="{% static 'product/assets/img/brand/06.png' %}" alt="">
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>

@@ -462,4 +462,22 @@ class HeroSlider(models.Model):
     def __str__(self):
         return f"{self.subtitle} - {self.title_line2}"
 
+class Brand(models.Model):
+    logo = models.ImageField(
+        upload_to="brands/", 
+        verbose_name="Логотип",
+        help_text="Рекомендуемый размер: 150x80px"
+    )
+    is_active = models.BooleanField(default=True, verbose_name="Активный")
+    order = models.PositiveIntegerField(default=0, verbose_name="Порядок")
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name = "Бренд"
+        verbose_name_plural = "Бренды"
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return f"Бренд {self.id}"  # или можно вернуть имя файла
