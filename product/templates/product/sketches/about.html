@@ -31,7 +31,7 @@
                         <div class="about-experience-icon">
                             <img src="{% static 'product/assets/img/icon/experience.svg' %}" alt="">
                         </div>
-                        <b>30 Years Of <br> Experience</b>
+                        <b>{{ about_content.highlighted_text|default:"30 Years Of Experience" }}</b>
                     </div>
                 </div>
             </div>
@@ -39,20 +39,18 @@
                 <div class="about-right wow fadeInRight" data-wow-delay=".25s">
                     <div class="site-heading mb-3">
                         <span class="site-title-tagline justify-content-start">
-                            <i class="flaticon-drive"></i> About Us
+                            <i class="flaticon-drive"></i> {{ about_content.title|default:"About Us" }}
                         </span>
                         <h2 class="site-title">
-                            World Largest Online <span>Shopping Marketplace</span> For You.
+                            {{ about_content.subtitle|default:"World Largest Online Shopping Marketplace For You."|safe }}
                         </h2>
                     </div>
-                    <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially by injected humour unchanged.
-                    </p>
-                    <p class="mt-10">
-                        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
-                    </p>
-                    <a href="{% url 'product:contact' %}" class="theme-btn mt-4">Discover More<i
-                            class="fas fa-arrow-right-long"></i></a>
+                    <div class="about-content">
+                        {{ about_content.content|safe }}
+                    </div>
+                    <a href="{% url 'product:contact' %}" class="theme-btn mt-4">
+                        {{ about_content.button_text }}<i class="fas fa-arrow-right-long"></i>
+                    </a>
                 </div>
             </div>
         </div>
@@ -138,82 +136,37 @@
             </div>
         </div>
         <div class="row mt-5">
+            {% for author in authors %}
             <div class="col-md-6 col-lg-3">
-                <div class="team-item wow fadeInUp" data-wow-delay=".25s">
+                <div class="team-item wow fadeInUp" data-wow-delay=".{{ forloop.counter0|add:2 }}5s">
                     <div class="team-img">
-                        <img src="{% static 'product/assets/img/team/01.jpg' %}" alt="thumb">
+                        {% if author.image %}
+                            <img src="{{ author.image.url }}" alt="{{ author.name }} {{ author.surname }}">
+                        {% else %}
+                            <img src="{% static 'product/assets/img/team/0{{ forloop.counter }}.jpg' %}" alt="{{ author.name }} {{ author.surname }}">
+                        {% endif %}
                     </div>
                     <div class="team-content">
                         <div class="team-bio">
-                            <h5><a href="#">Chad Smith</a></h5>
-                            <span>Senior Manager</span>
+                            <h5><a href="{% url 'product:author_detail' author.id %}">{{ author.name }} {{ author.surname }}</a></h5>   
+                            <span>
+                                {% if forloop.counter == 1 %}Senior Manager
+                                {% elif forloop.counter == 2 %}SEO Expert
+                                {% elif forloop.counter == 3 %}CEO & Founder
+                                {% elif forloop.counter == 4 %}Digital Marketer
+                                {% else %}Team Member{% endif %}
+                            </span>
                         </div>
                     </div>
                     <div class="team-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        {% if author.facebook %}<a href="{{ author.facebook }}"><i class="fab fa-facebook-f"></i></a>{% endif %}
+                        {% if author.instagram %}<a href="{{ author.instagram }}"><i class="fab fa-instagram"></i></a>{% endif %}
+                        {% if author.linkedin %}<a href="{{ author.linkedin }}"><i class="fab fa-linkedin-in"></i></a>{% endif %}
+                        {% if author.youtube %}<a href="{{ author.youtube }}"><i class="fab fa-youtube"></i></a>{% endif %}
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="team-item wow fadeInUp" data-wow-delay=".50s">
-                    <div class="team-img">
-                        <img src="{% static 'product/assets/img/team/02.jpg' %}" alt="thumb">
-                    </div>
-                    <div class="team-content">
-                        <div class="team-bio">
-                            <h5><a href="#">Malissa Fie</a></h5>
-                            <span>SEO Expert</span>
-                        </div>
-                    </div>
-                    <div class="team-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="team-item wow fadeInUp" data-wow-delay=".75s">
-                    <div class="team-img">
-                        <img src="{% static 'product/assets/img/team/03.jpg' %}" alt="thumb">
-                    </div>
-                    <div class="team-content">
-                        <div class="team-bio">
-                            <h5><a href="#">Arron Rodri</a></h5>
-                            <span>CEO & Founder</span>
-                        </div>
-                    </div>
-                    <div class="team-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-3">
-                <div class="team-item wow fadeInUp" data-wow-delay="1s">
-                    <div class="team-img">
-                        <img src="{% static 'product/assets/img/team/04.jpg' %}" alt="thumb">
-                    </div>
-                    <div class="team-content">
-                        <div class="team-bio">
-                            <h5><a href="#">Tony Pinako</a></h5>
-                            <span>Digital Marketer</span>
-                        </div>
-                    </div>
-                    <div class="team-social">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </div>
@@ -319,4 +272,4 @@
 </div>
 <!-- newsletter area end -->
 
-{% endblock %}
+{% endblock %}  

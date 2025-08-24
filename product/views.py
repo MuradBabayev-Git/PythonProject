@@ -506,3 +506,25 @@ def contact(request):
 def become_seller(request):
     return render(request, 'product/sketches/become-seller.html')  # со sketches/
     
+
+
+def about(request):
+    about_content = AboutPageContent.objects.filter(is_active=True).first()
+    # Получаем первых 4 активных авторов
+    authors = Author.objects.filter(status=True).order_by('order')[:4]
+    
+    context = {
+        'about_content': about_content,
+        'authors': authors,
+    }
+    return render(request, 'product/sketches/about.html', context)
+    
+def author_detail(request, author_id):
+    author = get_object_or_404(Author, id=author_id, status=True)
+    author_products = Product.objects.filter(author=author, status=True)[:4]
+    
+    context = {
+        'author': author,
+        'author_products': author_products,
+    }
+    return render(request, 'product/author_detail.html', context)

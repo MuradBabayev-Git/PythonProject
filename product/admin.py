@@ -330,7 +330,7 @@ class NewCollectionAdmin(admin.ModelAdmin):
 
 
 
-
-@admin.register(AboutPage)
-class AboutPageAdmin(admin.ModelAdmin):
-    list_display = ['title', 'is_active']
+@admin.register(AboutPageContent)
+class AboutPageContentAdmin(admin.ModelAdmin):
+    list_display = ('title', 'is_active')
+    list_editable = ('is_active',)

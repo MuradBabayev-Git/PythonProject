@@ -8,7 +8,7 @@ from django.core.validators import (
 )
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.hashers import make_password, check_password
-
+from ckeditor.fields import RichTextField
 import uuid
 from django.utils import timezone
 
@@ -189,6 +189,12 @@ class Author(SocialMedia, models.Model):
         auto_now=True,
         verbose_name="Yenilənmə tarixi",
     )
+    
+    order = models.PositiveIntegerField(
+        default=0,
+        verbose_name="Order"
+    )
+
 
     def __str__(self):
         return f"{self.name} {self.surname}"
@@ -210,6 +216,8 @@ class Author(SocialMedia, models.Model):
         verbose_name = "Author"
         verbose_name_plural = "Authors"
         ordering = ("-created_at",)
+        ordering = ('order', '-created_at')
+
 
 # <================> TOKEN MODEL <================> #
 
@@ -370,19 +378,17 @@ class NewCollection(Product):
         proxy = True
 
 
-
-class AboutPage(models.Model):
-    experience = models.CharField(max_length=100, default="30 Years Of Experience")
-    title = models.CharField(max_length=200, default="ABOUT US")
-    subtitle = models.CharField(max_length=300, default="World Largest Online Shopping Marketplace For You.")
-    content = models.TextField(default="")
-    button_text = models.CharField(max_length=50, default="Discover More →")
-    image = models.ImageField(upload_to='about/', blank=True, null=True)
+class AboutPageContent(models.Model):
+    title = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=200, blank=True)
+    highlighted_text = models.CharField(max_length=100, blank=True)
+    content = RichTextField()
+    button_text = models.CharField(max_length=50, default="Discover More")
     is_active = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.title
     
     class Meta:
         verbose_name = "About Page Content"
-        verbose_name_plural = "About Page Content"
-    
-    def __str__(self):
-        return "About Page Content"
+        verbose_name_plural = "About Page Contents"
