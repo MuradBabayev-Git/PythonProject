@@ -45,10 +45,17 @@
                                     {{ slide.description }}
                                 </p>
                                 <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                    <a href="{{ slide.button_link }}" class="theme-btn">
-                                        {{ slide.button_text }}<i class="fas fa-arrow-right"></i>
-                                    </a>
+                                    {% if slide.product %}
+                                        <a href="{% url 'product:product_detail' slide.product.slug %}" class="theme-btn">
+                                            {{ slide.button_text }}<i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ slide.button_link }}" class="theme-btn">
+                                            {{ slide.button_text }}<i class="fas fa-arrow-right"></i>
+                                        </a>
+                                    {% endif %}
                                 </div>
+                                
                             </div>
                         </div>
                         <div class="col-md-12 col-lg-6 col-xl-4">
